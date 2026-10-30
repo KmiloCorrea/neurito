@@ -33,3 +33,16 @@ Porque el sistema utiliza valores normalizados en un rango de 0 a 1 para represe
 
 **4. ¿Por qué una precisión alta puede ser engañosa?**
 Porque si los datos sintéticos de entrenamiento están desbalanceados (por ejemplo, si el 90% de las veces la política dicta que la mascota debe estar "Neutral"), un modelo deficiente podría simplemente aprender a predecir "Neutral" todo el tiempo. Obtendría un 90% de precisión matemática, pero en la práctica sería incapaz de predecir correctamente cuándo debe comer o jugar.
+
+## 3. Anexos y Evidencias
+
+A continuación, se presentan las capturas del simulador evidenciando los resultados de los experimentos:
+
+**Experimento 1: Necesidad crítica (EAT al 99.8%)**
+![Evidencia 1](evidencias/prueba1.png)
+
+**Experimento 2: Prioridades iguales (Incertidumbre)**
+![Evidencia 2](evidencias/prueba2.png)
+
+**Nota sobre modificaciones en el código:**
+Para llevar a cabo estos experimentos, se realizaron alteraciones directas en el archivo `main.py`. Puedes revisar el código fuente en este repositorio para verificar los cambios aplicados en la inicialización de la red neuronal (capa oculta de 10 neuronas) y en el ciclo de entrenamiento (2500 épocas y tasa de aprendizaje de 0.05).
