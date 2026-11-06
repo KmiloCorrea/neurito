@@ -46,3 +46,33 @@ A continuación, se presentan las capturas del simulador evidenciando los result
 
 **Nota sobre modificaciones en el código:**
 Para llevar a cabo estos experimentos, se realizaron alteraciones directas en el archivo `main.py`. Puedes revisar el código fuente en este repositorio para verificar los cambios aplicados en la inicialización de la red neuronal (capa oculta de 10 neuronas) y en el ciclo de entrenamiento (2500 épocas y tasa de aprendizaje de 0.05).
+
+## 4. Neurito 2.0: Aprendizaje de Saltos (feature/neurito-salto)
+
+Se integraron los módulos `salto_modelo.py` y `saltar.py` para implementar una red neuronal (3 → 12 → 1) que enseña a Neurito a esquivar obstáculos utilizando aprendizaje supervisado y entropía cruzada binaria.
+
+**Resultados de los Experimentos (Evidencias gráficas):**
+
+1. **Línea base (Sin entrenar):** Con pesos inicializados aleatoriamente, el modelo es incapaz de tomar decisiones útiles. Choca con el 100% de los obstáculos.
+![Choque sin entrenar](evidencias/evidencia_choque.png)
+
+2. **Entrenamiento progresivo:** Al entrenar en bloques de 100 épocas, la pérdida desciende gradualmente y la precisión frente a los datos sintéticos sube. En el entorno gráfico, esto se traduce en saltos oportunos.
+![Salto entrenado](evidencias/evidencia_salto.png)
+
+3. **Modificación de la capa oculta:** 
+   * **3 neuronas:** La red sufre *underfitting* (baja generalización) y no logra abstraer la relación entre las variables.
+   ![3 Neuronas](evidencias/3_neuronas.png)
+   * **24 neuronas:** La red aprende la regla rápidamente, pero incrementa el cálculo matricial de manera innecesaria.
+   ![24 Neuronas](evidencias/24_neuronas.png)
+
+4. **Tasa de aprendizaje (Learning Rate):** 
+   * **Bajar a 0.01:** La convergencia es demasiado lenta.
+   ![Tasa 0.01](evidencias/tasa_0.01.png)
+   * **Subir a 1.2:** El entrenamiento se vuelve inestable; la pérdida oscila drásticamente sin encontrar el mínimo.
+   ![Tasa 1.2](evidencias/tasa_1.2.png)
+
+5. **Ventana de entrenamiento:** Al ajustar la etiqueta de salto a un rango tardío (ej. 2 a 5 fotogramas), la red neuronal aprende esta regla con éxito y muestra una precisión alta. Sin embargo, en el juego colisiona constantemente. 
+![Experimento 5](evidencias/experimento_5.png)
+
+**Pregunta central: ¿Por qué una red puede clasificar ejemplos con buena precisión y aun así chocar?**
+Porque la precisión mide qué tan bien la red se ajusta a las **etiquetas sintéticas** provistas durante el entrenamiento, no su rendimiento en el entorno físico. Si la regla matemática (ventana de fotogramas) es incompatible con las leyes del motor de Pygame (gravedad, velocidad de salto e inercia), la red ejecutará la regla a la perfección pero fallará en evitar el obstáculo.
